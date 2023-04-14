@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post, Res  } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, Req, RawBodyRequest  } from '@nestjs/common';
+import { Request } from 'express';
 import { UrlService } from './url.service';
 import { ShortenURLDto } from './dtos/url.dto';
 
@@ -8,11 +9,14 @@ export class UrlController {
 
     @Post('shorten')
     async shortenUrl(
-        @Body()
-            url: ShortenURLDto,
+        @Req()
+            req: Request
+
     ) {
-        // return this.service.shortenUrl(url);
-        const shortUrl = await this.service.shortenUrl(url);
+        // console.log(req.body['urlCode'])
+        const longUrl = req.body['longUrl'];
+        const urlCode = req.body['urlCode'];
+        const shortUrl = await this.service.shortenUrl(longUrl, urlCode);
         return {
             shortUrl: shortUrl,
         };

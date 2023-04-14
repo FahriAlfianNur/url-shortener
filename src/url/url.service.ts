@@ -13,13 +13,15 @@ export class UrlService {
         private repo: Repository<Url>,
     ) {}
 
-    async shortenUrl(url: ShortenURLDto) {
-        const { longUrl } = url;
+    async shortenUrl(url:string, code:string) {
+        const  longUrl  = url;
+        const  urlCode  = code;
+        console.log(longUrl)
         if (!isURL(longUrl)) {
             throw new BadRequestException('URL Not Valid!');
         }
 
-        const urlCode = nanoid(6);
+        // const urlCode = nanoid(6);
         const baseURL = 'http://localhost:3000';
 
         try {
